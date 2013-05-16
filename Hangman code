@@ -1,0 +1,102 @@
+#include <iostream>
+#include <cstdlib>
+#include<ctime>
+#include <string>
+using namespace std;
+
+const int Max_Tries=5;
+int Fill (char, string, string&);
+
+int main ()
+{
+  string name;
+	char letter;
+	int num_of_wrong_guesses=0;
+	string word;
+	string words[] =
+	{
+		"iran",
+		"england",
+		"nepal",
+		"france",
+		"germany",
+		"australia",
+		"italy",
+		"norwey",
+		"turkey",
+		"japan"
+	};
+
+	
+	srand(time(NULL));
+	int n=rand()% 10;
+	word=words[n];
+    
+	
+	string unknown(word.length(),'*');
+
+	
+	cout << "\n\nWelcome to hangman...Guess a country Name";
+	cout << "\n\nYou must type only one letter in one try";
+	cout << "\n\nYou have " << Max_Tries << " tries left";
+	cout << "\n-------------------------------------------";
+    
+	
+	while (num_of_wrong_guesses < Max_Tries)
+	{
+		cout << "\n\n" << unknown;
+		cout << "\n\nGuess a letter: ";
+		cin >> letter;
+		
+		if (Fill(letter, word, unknown)==0)
+		{
+			cout << endl << "oops! That letter is wrong!" << endl;
+			num_of_wrong_guesses++;
+		}
+		else
+		{
+			cout << endl << "You found a letter!" << endl;
+		}
+		
+		cout << "You have " << Max_Tries - num_of_wrong_guesses;
+		cout << " guesses left." << endl;
+		
+		if (word==unknown)
+		{
+			cout << word << endl;
+			cout << "Yes! You got it!";
+			break;
+		}
+	}
+	if(num_of_wrong_guesses == Max_Tries)
+	{
+		cout << "\nSorry, you lose...you've been hanged." << endl;
+		cout << "The word was : " << word << endl;
+	}
+	cin.ignore();
+	cin.get();
+	return 0;
+}
+
+
+
+int Fill (char guess, string secretword, string &guessword)
+{
+	int i;
+	int matches=0;
+	int len=secretword.length();
+	for (i = 0; i< len; i++)
+	{
+		
+		if (guess == guessword[i])
+			
+            return 0;
+		
+		if (guess == secretword[i])
+		{
+			guessword[i] = guess;
+			matches++;
+		}
+	}
+	return matches;
+}
